@@ -3,9 +3,9 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="2690f162-5aa0-436b-9158-4e4c1cc89407" name="bupt">
-        <fileTransfer accessType="SFTP" host="10.3.242.100" port="22" sshConfigId="05b31e28-ee7f-49ac-a98c-6795e226c5ce" sshConfig="gao@10.3.242.100:22 password">
+        <fileTransfer accessType="SFTP" host="10.129.232.240" port="22" sshConfigId="f2a191eb-a63f-4e62-9d35-5fac1c378e63" sshConfig="a@10.129.232.240:22 password">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>

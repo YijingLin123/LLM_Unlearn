@@ -42,8 +42,8 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto"
 ).eval()
 
-forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_forget")
-retain_dataset = load_from_disk("./dataset_cache/unlearn_dataset_retain")
+forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")
+retain_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_retain")
 
 training_args = TrainingArguments(
     output_dir="./lora_unlearning_eval",

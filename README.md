@@ -1,9 +1,20 @@
+conda activate llmunlearn
+
 export HF_ENDPOINT=https://hf-mirror.com
+export NCCL_IB_DISABLE=1
+export NCCL_P2P_DISABLE=1
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
+
 
 下载代码到Yi-6B
 
 在全部代码运行之前，需要有个数据预处理模块。
 python download_dataset.py --all --downstream
+
+python run_unlearn.py --method gradient_ascent
+
+python run_eval.py --method gradient_ascent
 
 python run_unlearn.py --method approximate_retrain
 

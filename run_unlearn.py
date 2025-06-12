@@ -40,14 +40,18 @@ lora_config = LoraConfig(
 model = get_peft_model(model, lora_config)
 model = prepare_model_for_kbit_training(model)
 
+# 4. 只更新 LoRA 层
 for name, param in model.named_parameters():
-    if "lora" in name:
-        param.requires_grad = True  # 只更新 LoRA 层
-    else:
-        param.requires_grad = False
+    param.requires_grad = ("lora" in name)
+
+# for name, param in model.named_parameters():
+#     if "lora" in name:
+#         param.requires_grad = True  # 只更新 LoRA 层
+#     else:
+#         param.requires_grad = False
 
 # **Gradient Ascent 训练（遗忘 `forget`数据）**
-forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_forget")
+forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")
 # print(forget_dataset[0])
 class UnlearningTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
@@ -60,12 +64,15 @@ class UnlearningTrainer(Trainer):
         return (loss, outputs) if return_outputs else loss
 
 # **近似重训练（Approximate Retrain）**
-approximate_dataset = load_from_disk("./dataset_cache/unlearn_dataset_approximate")
+approximate_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_approximate")
 class ApproximateRetrainTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
         outputs = model(**inputs)
-        loss = torch.nn.CrossEntropyLoss()(outputs.logits.view(-1, outputs.logits.size(-1)),
-                                           inputs["input_ids"].view(-1))
+        loss = torch.nn.CrossEntropyLoss()(
+            outputs.logits.view(-1, outputs.logits.size(-1)),
+            inputs["input_ids"].view(-1)
+        )
+
         return (loss, outputs) if return_outputs else loss  # **正常 loss 计算，不反转 loss**
 
 class RandomLabelTrainer(Trainer):
@@ -211,7 +218,7 @@ class AscentPlusKLTrainer(Trainer):
 # **训练参数**
 training_args = TrainingArguments(
     output_dir=f"./lora_{args.method}",
-    per_device_train_batch_size=2,
+    per_device_train_batch_size=1,
     gradient_accumulation_steps=85,
     num_train_epochs=1,  # 适当减少 epoch，防止过度遗忘
     save_steps=100,

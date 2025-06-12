@@ -1,0 +1,20 @@
+name: llmunlearn
+channels:
+  - pytorch
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1
+  - pip
+  - pip:
+      - transformers
+      - datasets
+      - peft
+      - accelerate
+      - evaluate
+      - bitsandbytes
+      - scipy
