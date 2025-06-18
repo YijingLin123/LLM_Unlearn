@@ -16,13 +16,13 @@ from torch.utils.data import DataLoader
 from torch.nn.functional import softmax
 
 # unlearn_method = "GA"
-unlearn_method = "AR"
+# unlearn_method = "AR"
 # unlearn_method = "FT"
-# unlearn_method = "UA"
+unlearn_method = "UA"
 # unlearn_method = "GAD"
 
-# dataset_select = "arxiv"
-dataset_select = "github"
+dataset_select = "arxiv"
+# dataset_select = "github"
 
 model_name = "Yi-6B"
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False)
@@ -64,6 +64,8 @@ forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_"+dataset_selec
 forget_dataset.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
 
 approximate_dataset = load_from_disk("./dataset_cache/unlearn_dataset_"+dataset_select+ "_approximate")
+subset_size = len(approximate_dataset) // 3
+approximate_dataset = approximate_dataset.select(range(subset_size))
 approximate_dataset.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer, return_tensors="pt")
@@ -133,30 +135,59 @@ class RandomLabelTrainer(Trainer):
                                            inputs["labels"].view(-1))
         return (loss, outputs) if return_outputs else loss
 
-def generate_adversarial_labels(model, inputs, rm_groundtruth=True):
-    """
-    给定模型与输入，生成 adversarial token 替换 labels。
-    """
+# def generate_adversarial_labels(model, inputs, rm_groundtruth=True):
+#     """
+#     给定模型与输入，生成 adversarial token 替换 labels。
+#     """
+#     model.eval()
+#     inputs = {k: v.to(model.device) for k, v in inputs.items()}
+#     with torch.no_grad():
+#         outputs = model(**inputs)
+#         logits = outputs.logits  # (batch, seq_len, vocab_size)
+#
+#     if rm_groundtruth:
+#         # 将原始 token 的概率置为 -inf，避免选中自己
+#         input_ids = inputs["input_ids"]
+#         for i in range(input_ids.size(0)):
+#             for j in range(input_ids.size(1)):
+#                 logits[i, j, input_ids[i, j]] = float("-inf")
+#
+#     # softmax 概率
+#     probs = softmax(logits, dim=-1)
+#
+#     # 取每个位置预测概率最高的（非 ground truth）token
+#     adversarial_labels = probs.argmax(dim=-1)
+#
+#     return adversarial_labels  # shape: (batch, seq_len)
+
+def generate_adversarial_labels(model, inputs, rm_groundtruth=True, perturb_ratio=0.3):
     model.eval()
     inputs = {k: v.to(model.device) for k, v in inputs.items()}
     with torch.no_grad():
         outputs = model(**inputs)
-        logits = outputs.logits  # (batch, seq_len, vocab_size)
+        logits = outputs.logits
 
     if rm_groundtruth:
-        # 将原始 token 的概率置为 -inf，避免选中自己
         input_ids = inputs["input_ids"]
-        for i in range(input_ids.size(0)):
-            for j in range(input_ids.size(1)):
-                logits[i, j, input_ids[i, j]] = float("-inf")
+        mask = torch.nn.functional.one_hot(input_ids, num_classes=logits.size(-1)).bool()
+        logits = logits.masked_fill(mask, -1e9)
 
-    # softmax 概率
     probs = softmax(logits, dim=-1)
+    top2 = probs.topk(2, dim=-1).indices  # (batch, seq_len, 2)
 
-    # 取每个位置预测概率最高的（非 ground truth）token
-    adversarial_labels = probs.argmax(dim=-1)
+    # 默认选第2高作为扰动目标
+    alt_labels = top2[:, :, 1]
+    adv_labels = inputs["input_ids"].clone()
 
-    return adversarial_labels  # shape: (batch, seq_len)
+    # 随机替换其中一部分 token
+    rand_mask = torch.rand_like(adv_labels.float()) < perturb_ratio
+    adv_labels[rand_mask] = alt_labels[rand_mask]
+
+    # 打印 diff ratio
+    diff_ratio = (adv_labels != inputs["input_ids"]).float().mean().item()
+    # print(f"Adversarial diff ratio: {diff_ratio:.4f}")
+
+    return adv_labels
 
 class AdversarialTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):

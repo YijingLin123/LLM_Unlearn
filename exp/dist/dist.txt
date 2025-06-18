@@ -1,0 +1,436 @@
+arXiv
+
+gradient ascent
+
+{'loss': -18.0593, 'grad_norm': 4.138686656951904, 'learning_rate': 2.0000000000000003e-06, 'epoch': 1.0}
+{'train_runtime': 186.8908, 'train_samples_per_second': 2.675, 'train_steps_per_second': 0.268, 'train_loss': -20.276553955078125, 'epoch': 1.0}
+100%|███████████████████████████████████████████| 50/50 [03:06<00:00,  3.74s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 3.339436
+模型已保存到GA_pou_proof/model_final
+
+Target steps            : [36, 38, 40, 42, 44, 46]
+Original distances      : ['0.2540', '0.3604', '0.4440', '0.5147', '0.5749', '0.6260']
+Reproduced distances    : ['0.5363', '0.6145', '0.6712', '0.7287', '0.7892', '0.8541']
+📊 Pearson correlation r: 0.9938
+✅ 趋势一致性良好（高相关性）
+
+approximate retrain
+
+{'loss': 127.5213, 'grad_norm': nan, 'learning_rate': 1.980487804878049e-05, 'epoch': 0.02}
+{'loss': 122.7418, 'grad_norm': 38.934295654296875, 'learning_rate': 1.9512195121951222e-05, 'epoch': 0.03}
+{'loss': 121.1296, 'grad_norm': 48.58367156982422, 'learning_rate': 1.91869918699187e-05, 'epoch': 0.05}
+{'loss': 116.4495, 'grad_norm': 57.5338249206543, 'learning_rate': 1.886178861788618e-05, 'epoch': 0.06}
+{'loss': 112.7313, 'grad_norm': 70.06859588623047, 'learning_rate': 1.8536585365853663e-05, 'epoch': 0.08}
+{'loss': 107.5912, 'grad_norm': 82.03514862060547, 'learning_rate': 1.821138211382114e-05, 'epoch': 0.1}
+{'loss': 103.9761, 'grad_norm': 109.80516052246094, 'learning_rate': 1.788617886178862e-05, 'epoch': 0.11}
+{'loss': 97.9048, 'grad_norm': 173.35304260253906, 'learning_rate': 1.75609756097561e-05, 'epoch': 0.13}
+{'loss': 89.6496, 'grad_norm': 146.81985473632812, 'learning_rate': 1.7235772357723578e-05, 'epoch': 0.15}
+{'loss': 80.474, 'grad_norm': 170.57630920410156, 'learning_rate': 1.691056910569106e-05, 'epoch': 0.16}
+{'loss': 69.4674, 'grad_norm': 161.9749298095703, 'learning_rate': 1.6585365853658537e-05, 'epoch': 0.18}
+{'loss': 59.4392, 'grad_norm': 193.69093322753906, 'learning_rate': 1.6260162601626018e-05, 'epoch': 0.19}
+{'loss': 49.5458, 'grad_norm': 240.4566650390625, 'learning_rate': 1.5934959349593496e-05, 'epoch': 0.21}
+{'loss': 36.7198, 'grad_norm': 200.7642364501953, 'learning_rate': 1.5609756097560978e-05, 'epoch': 0.23}
+{'loss': 27.4235, 'grad_norm': 152.86231994628906, 'learning_rate': 1.528455284552846e-05, 'epoch': 0.24}
+{'loss': 16.5583, 'grad_norm': 162.9923095703125, 'learning_rate': 1.4959349593495935e-05, 'epoch': 0.26}
+{'loss': 11.8382, 'grad_norm': 124.44113159179688, 'learning_rate': 1.4666666666666666e-05, 'epoch': 0.28}
+{'loss': 6.9928, 'grad_norm': 70.4526138305664, 'learning_rate': 1.4341463414634148e-05, 'epoch': 0.29}
+{'loss': 1.7516, 'grad_norm': 28.919963836669922, 'learning_rate': 1.4016260162601627e-05, 'epoch': 0.31}
+{'loss': 0.8171, 'grad_norm': 16.451122283935547, 'learning_rate': 1.3691056910569107e-05, 'epoch': 0.32}
+{'loss': 0.4197, 'grad_norm': 7.479043006896973, 'learning_rate': 1.3365853658536587e-05, 'epoch': 0.34}
+{'loss': 2.0746, 'grad_norm': 7.697150230407715, 'learning_rate': 1.307317073170732e-05, 'epoch': 0.36}
+{'loss': 1.6481, 'grad_norm': 12.1893310546875, 'learning_rate': 1.2747967479674799e-05, 'epoch': 0.37}
+{'loss': 0.1885, 'grad_norm': 11.589627265930176, 'learning_rate': 1.2422764227642277e-05, 'epoch': 0.39}
+{'loss': 0.3491, 'grad_norm': 1.8093845844268799, 'learning_rate': 1.2097560975609757e-05, 'epoch': 0.41}
+{'loss': 0.1375, 'grad_norm': 2.526588201522827, 'learning_rate': 1.1772357723577236e-05, 'epoch': 0.42}
+{'loss': 1.884, 'grad_norm': 2.5247275829315186, 'learning_rate': 1.1447154471544718e-05, 'epoch': 0.44}
+{'loss': 0.1363, 'grad_norm': 3.6979639530181885, 'learning_rate': 1.1121951219512197e-05, 'epoch': 0.45}
+{'loss': 0.1203, 'grad_norm': 2.787895441055298, 'learning_rate': 1.0796747967479675e-05, 'epoch': 0.47}
+{'loss': 0.1142, 'grad_norm': 2.4139890670776367, 'learning_rate': 1.0471544715447155e-05, 'epoch': 0.49}
+{'loss': 0.1091, 'grad_norm': 3.8432071208953857, 'learning_rate': 1.0146341463414634e-05, 'epoch': 0.5}
+{'loss': 1.9276, 'grad_norm': 2.3691952228546143, 'learning_rate': 9.821138211382114e-06, 'epoch': 0.52}
+{'loss': 0.1049, 'grad_norm': 2.371029853820801, 'learning_rate': 9.495934959349594e-06, 'epoch': 0.54}
+{'loss': 0.1064, 'grad_norm': 3.6346936225891113, 'learning_rate': 9.170731707317075e-06, 'epoch': 0.55}
+{'loss': 0.1051, 'grad_norm': 1.9522247314453125, 'learning_rate': 8.845528455284553e-06, 'epoch': 0.57}
+{'loss': 1.0394, 'grad_norm': 1.3987891674041748, 'learning_rate': 8.520325203252033e-06, 'epoch': 0.58}
+{'loss': 0.1027, 'grad_norm': 0.7375861406326294, 'learning_rate': 8.195121951219512e-06, 'epoch': 0.6}
+{'loss': 1.11, 'grad_norm': 0.87907475233078, 'learning_rate': 7.869918699186992e-06, 'epoch': 0.62}
+{'loss': 0.0918, 'grad_norm': 1.3347867727279663, 'learning_rate': 7.544715447154472e-06, 'epoch': 0.63}
+{'loss': 2.6393, 'grad_norm': 163.486572265625, 'learning_rate': 7.219512195121952e-06, 'epoch': 0.65}
+{'loss': 2.0203, 'grad_norm': 0.521376371383667, 'learning_rate': 6.894308943089432e-06, 'epoch': 0.67}
+{'loss': 0.0969, 'grad_norm': 3.7265377044677734, 'learning_rate': 6.56910569105691e-06, 'epoch': 0.68}
+{'loss': 0.0951, 'grad_norm': 4.016565322875977, 'learning_rate': 6.243902439024391e-06, 'epoch': 0.7}
+{'loss': 0.1011, 'grad_norm': 8.953370094299316, 'learning_rate': 5.9186991869918705e-06, 'epoch': 0.71}
+{'loss': 0.1142, 'grad_norm': 0.9493617415428162, 'learning_rate': 5.59349593495935e-06, 'epoch': 0.73}
+{'loss': 0.094, 'grad_norm': 2.4705910682678223, 'learning_rate': 5.26829268292683e-06, 'epoch': 0.75}
+{'loss': 2.5503, 'grad_norm': 0.7143458724021912, 'learning_rate': 4.943089430894309e-06, 'epoch': 0.76}
+{'loss': 2.2794, 'grad_norm': 0.6605238318443298, 'learning_rate': 4.617886178861789e-06, 'epoch': 0.78}
+{'loss': 0.0931, 'grad_norm': 1.720812201499939, 'learning_rate': 4.292682926829269e-06, 'epoch': 0.8}
+{'loss': 0.0865, 'grad_norm': 0.6470783948898315, 'learning_rate': 3.967479674796748e-06, 'epoch': 0.81}
+{'loss': 3.3117, 'grad_norm': 0.42555510997772217, 'learning_rate': 3.6422764227642283e-06, 'epoch': 0.83}
+{'loss': 0.7782, 'grad_norm': 1.0838552713394165, 'learning_rate': 3.3170731707317076e-06, 'epoch': 0.84}
+{'loss': 0.0878, 'grad_norm': 0.5763441920280457, 'learning_rate': 2.991869918699187e-06, 'epoch': 0.86}
+{'loss': 1.0661, 'grad_norm': 2.4195315837860107, 'learning_rate': 2.666666666666667e-06, 'epoch': 0.88}
+{'loss': 2.3405, 'grad_norm': 65.5363540649414, 'learning_rate': 2.3414634146341465e-06, 'epoch': 0.89}
+{'loss': 0.0881, 'grad_norm': 1.8118730783462524, 'learning_rate': 2.016260162601626e-06, 'epoch': 0.91}
+{'loss': 2.9674, 'grad_norm': 0.4206673204898834, 'learning_rate': 1.723577235772358e-06, 'epoch': 0.93}
+{'loss': 0.092, 'grad_norm': 1.467395544052124, 'learning_rate': 1.3983739837398375e-06, 'epoch': 0.94}
+{'loss': 0.0833, 'grad_norm': 3.0722036361694336, 'learning_rate': 1.0731707317073172e-06, 'epoch': 0.96}
+{'loss': 0.0891, 'grad_norm': 1.583742380142212, 'learning_rate': 7.479674796747968e-07, 'epoch': 0.97}
+{'loss': 3.55, 'grad_norm': 0.59588623046875, 'learning_rate': 4.2276422764227643e-07, 'epoch': 0.99}
+{'train_runtime': 2263.8799, 'train_samples_per_second': 2.719, 'train_steps_per_second': 0.272, 'train_loss': 22.71801047804879, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 615/615 [37:43<00:00,  3.68s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 39.845344
+模型已保存到AR_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [604, 606, 608, 610, 612, 614]
+Original distances      : ['0.0141', '0.0172', '0.0196', '0.0218', '0.0238', '0.0254']
+Reproduced distances    : ['0.7768', '0.8664', '0.8887', '0.9859', '1.0679', '1.1066']
+📊 Pearson correlation r: 0.9861
+✅ 趋势一致性良好（高相关性）
+
+Finetune with random labels
+
+{'loss': 223.5002, 'grad_norm': 43.67233657836914, 'learning_rate': 1.76e-05, 'epoch': 0.2}
+{'loss': 223.4253, 'grad_norm': 54.070796966552734, 'learning_rate': 1.4e-05, 'epoch': 0.4}
+{'loss': 214.0728, 'grad_norm': 51.38497543334961, 'learning_rate': 1e-05, 'epoch': 0.6}
+{'loss': 214.2106, 'grad_norm': 47.816226959228516, 'learning_rate': 6e-06, 'epoch': 0.8}
+{'loss': 216.8787, 'grad_norm': 70.60037231445312, 'learning_rate': 2.0000000000000003e-06, 'epoch': 1.0}
+{'train_runtime': 184.9041, 'train_samples_per_second': 2.704, 'train_steps_per_second': 0.27, 'train_loss': 218.4175146484375, 'epoch': 1.0}
+100%|███████████████████████████████████████████| 50/50 [03:04<00:00,  3.70s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 6.470628
+模型已保存到FT_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [36, 38, 40, 42, 44, 46]
+Original distances      : ['0.4709', '0.6710', '0.8522', '1.0114', '1.1486', '1.2617']
+Reproduced distances    : ['0.5112', '0.6024', '0.6811', '0.8476', '0.9596', '1.0844']
+📊 Pearson correlation r: 0.9834
+✅ 趋势一致性良好（高相关性）
+
+unlearn with adversarial samples
+
+(llmunlearn) a@a-AX370-Gaming-3:~/unlearn$ python verify_unlearn.py
+Loading checkpoint shards: 100%|██████████████████| 2/2 [00:10<00:00,  5.46s/it]
+We've detected an older driver with an RTX 4000 series GPU. These drivers have issues with P2P. This can affect the multi-gpu inference when using accelerate device_map.Please make sure to update your driver to the latest version which resolves this.
+/home/a/unlearn/verify_unlearn.py:279: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `AdversarialTrainer.__init__`. Use `processing_class` instead.
+  trainer = AdversarialTrainer(
+No label_names provided for model class `PeftModelForCausalLM`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+{'loss': 102.7617, 'grad_norm': 32.074588775634766, 'learning_rate': 1.76e-05, 'epoch': 0.2}
+{'loss': 104.8758, 'grad_norm': 41.47262191772461, 'learning_rate': 1.4e-05, 'epoch': 0.4}
+{'loss': 100.3425, 'grad_norm': 41.05195999145508, 'learning_rate': 1e-05, 'epoch': 0.6}
+{'loss': 97.7829, 'grad_norm': 37.89023208618164, 'learning_rate': 6e-06, 'epoch': 0.8}
+{'loss': 100.4721, 'grad_norm': 55.964454650878906, 'learning_rate': 2.0000000000000003e-06, 'epoch': 1.0}
+{'train_runtime': 292.4005, 'train_samples_per_second': 1.71, 'train_steps_per_second': 0.171, 'train_loss': 101.24700927734375, 'epoch': 1.0}
+100%|███████████████████████████████████████████| 50/50 [04:52<00:00,  5.85s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 6.495738
+模型已保存到UA_arxiv_pou_proof/model_final
+
+Target steps            : [36, 38, 40, 42, 44, 46]
+Original distances      : ['0.4767', '0.6793', '0.8630', '1.0243', '1.1632', '1.2774']
+Reproduced distances    : ['0.5033', '0.6201', '0.7257', '0.8354', '0.9471', '1.0779']
+📊 Pearson correlation r: 0.9922
+✅ 趋势一致性良好（高相关性）
+
+📈 [Trend Verification]
+Target steps            : [36, 38, 40, 42, 44, 46]
+Original distances      : ['0.3590', '0.4425', '0.5993', '0.7392', '0.8603', '0.9598']
+Reproduced distances    : ['0.5798', '0.7158', '0.8095', '0.8987', '0.9834', '1.0773']
+📊 Pearson correlation r: 0.9909
+✅ 趋势一致性良好（高相关性）
+
+gradient ascent + descent
+
+{'loss': 18.6725, 'grad_norm': 2.927389621734619, 'learning_rate': 1.936e-05, 'epoch': 0.04}
+{'loss': 18.2161, 'grad_norm': 2.5253896713256836, 'learning_rate': 1.864e-05, 'epoch': 0.08}
+{'loss': 21.2431, 'grad_norm': 2.7351632118225098, 'learning_rate': 1.8e-05, 'epoch': 0.12}
+{'loss': 19.4898, 'grad_norm': 2.799473762512207, 'learning_rate': 1.72e-05, 'epoch': 0.16}
+{'loss': 23.4326, 'grad_norm': 2.702624559402466, 'learning_rate': 1.648e-05, 'epoch': 0.2}
+{'loss': 22.548, 'grad_norm': 2.7482733726501465, 'learning_rate': 1.5680000000000002e-05, 'epoch': 0.24}
+{'loss': 21.2795, 'grad_norm': 3.6650888919830322, 'learning_rate': 1.4880000000000002e-05, 'epoch': 0.28}
+{'loss': 25.1103, 'grad_norm': 52.4715576171875, 'learning_rate': 1.408e-05, 'epoch': 0.32}
+{'loss': 21.3941, 'grad_norm': 3.890594720840454, 'learning_rate': 1.3280000000000002e-05, 'epoch': 0.36}
+{'loss': 17.7635, 'grad_norm': 3.673938274383545, 'learning_rate': 1.248e-05, 'epoch': 0.4}
+{'loss': 19.4498, 'grad_norm': 3.369356155395508, 'learning_rate': 1.168e-05, 'epoch': 0.44}
+{'loss': 19.9463, 'grad_norm': 3.4278981685638428, 'learning_rate': 1.0880000000000001e-05, 'epoch': 0.48}
+{'loss': 23.5784, 'grad_norm': 71.29069519042969, 'learning_rate': 1.008e-05, 'epoch': 0.52}
+{'loss': 23.3663, 'grad_norm': 3.648338794708252, 'learning_rate': 9.280000000000001e-06, 'epoch': 0.56}
+{'loss': 19.7957, 'grad_norm': 3.4622113704681396, 'learning_rate': 8.48e-06, 'epoch': 0.6}
+{'loss': 26.8844, 'grad_norm': 75.47846984863281, 'learning_rate': 7.680000000000001e-06, 'epoch': 0.64}
+{'loss': 18.2903, 'grad_norm': 3.333197832107544, 'learning_rate': 6.88e-06, 'epoch': 0.68}
+{'loss': 24.5627, 'grad_norm': 3.387540340423584, 'learning_rate': 6.08e-06, 'epoch': 0.72}
+{'loss': 22.3925, 'grad_norm': 3.6238350868225098, 'learning_rate': 5.28e-06, 'epoch': 0.76}
+{'loss': 20.3253, 'grad_norm': 3.419809579849243, 'learning_rate': 4.48e-06, 'epoch': 0.8}
+{'loss': 18.7216, 'grad_norm': 65.06979370117188, 'learning_rate': 3.6800000000000003e-06, 'epoch': 0.84}
+{'loss': 22.9539, 'grad_norm': 3.36755633354187, 'learning_rate': 2.88e-06, 'epoch': 0.88}
+{'loss': 21.8634, 'grad_norm': 3.6643660068511963, 'learning_rate': 2.08e-06, 'epoch': 0.92}
+{'loss': 22.1034, 'grad_norm': 3.2213797569274902, 'learning_rate': 1.28e-06, 'epoch': 0.96}
+{'loss': 20.7484, 'grad_norm': 3.363067150115967, 'learning_rate': 4.800000000000001e-07, 'epoch': 1.0}
+{'train_runtime': 723.0236, 'train_samples_per_second': 3.458, 'train_steps_per_second': 0.346, 'train_loss': 21.3652734375, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 250/250 [12:03<00:00,  2.89s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 11.994655
+模型已保存到GAD_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [236, 238, 240, 242, 244, 246]
+Original distances      : ['0.0404', '0.0562', '0.0699', '0.0817', '0.0921', '0.1005']
+Reproduced distances    : ['0.5408', '0.6951', '1.0127', '0.9469', '1.2487', '1.3455']
+📊 Pearson correlation r: 0.9692
+✅ 趋势一致性良好（高相关性）
+
+Github
+
+gradient ascent
+
+{'loss': -60.4775, 'grad_norm': 97.60501861572266, 'learning_rate': 1.9600000000000002e-05, 'epoch': 0.05}
+{'loss': -55.8773, 'grad_norm': 111.19908142089844, 'learning_rate': 1.86e-05, 'epoch': 0.1}
+{'loss': -66.8769, 'grad_norm': 228.20730590820312, 'learning_rate': 1.76e-05, 'epoch': 0.15}
+{'loss': -54.8328, 'grad_norm': 133.59791564941406, 'learning_rate': 1.66e-05, 'epoch': 0.2}
+{'loss': -65.3542, 'grad_norm': 321.6915283203125, 'learning_rate': 1.5600000000000003e-05, 'epoch': 0.25}
+{'loss': -66.4511, 'grad_norm': 331.29339599609375, 'learning_rate': 1.4700000000000002e-05, 'epoch': 0.3}
+{'loss': -67.8513, 'grad_norm': 375.4097900390625, 'learning_rate': 1.3700000000000003e-05, 'epoch': 0.35}
+{'loss': -78.6357, 'grad_norm': 490.308837890625, 'learning_rate': 1.2800000000000001e-05, 'epoch': 0.4}
+{'loss': -75.731, 'grad_norm': 465.8429870605469, 'learning_rate': 1.1900000000000001e-05, 'epoch': 0.45}
+{'loss': -83.3252, 'grad_norm': 1057.0692138671875, 'learning_rate': 1.0900000000000002e-05, 'epoch': 0.5}
+{'loss': -86.6277, 'grad_norm': 741.535888671875, 'learning_rate': 9.9e-06, 'epoch': 0.55}
+{'loss': -89.8177, 'grad_norm': 794.40966796875, 'learning_rate': 8.900000000000001e-06, 'epoch': 0.6}
+{'loss': -109.4501, 'grad_norm': 1125.397705078125, 'learning_rate': 7.9e-06, 'epoch': 0.65}
+{'loss': -113.8883, 'grad_norm': 1336.49853515625, 'learning_rate': 6.9e-06, 'epoch': 0.7}
+{'loss': -141.8788, 'grad_norm': 1709.384521484375, 'learning_rate': 5.9e-06, 'epoch': 0.75}
+{'loss': -118.5122, 'grad_norm': 1045.0321044921875, 'learning_rate': 4.9000000000000005e-06, 'epoch': 0.8}
+{'loss': -127.01, 'grad_norm': 1346.565185546875, 'learning_rate': 3.900000000000001e-06, 'epoch': 0.85}
+ 89%|████████████████████████████████████▍    | 178/200 [08:56<01:05,  2.98s/it]
+
+
+{'loss': -119.9443, 'grad_norm': 1333.038330078125, 'learning_rate': 2.9e-06, 'epoch': 0.9}
+{'loss': -159.1309, 'grad_norm': 777.2866821289062, 'learning_rate': 1.9000000000000002e-06, 'epoch': 0.95}
+{'loss': -140.9361, 'grad_norm': 1143.8841552734375, 'learning_rate': 9.000000000000001e-07, 'epoch': 1.0}
+{'train_runtime': 602.3657, 'train_samples_per_second': 3.32, 'train_steps_per_second': 0.332, 'train_loss': -94.13044616699219, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 200/200 [10:02<00:00,  3.01s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 21.776781
+模型已保存到GA_github_pou_proof/model_final
+
+Target steps            : [186, 188, 190, 192, 194, 196]
+Original distances      : ['0.1205', '0.1718', '0.2178', '0.2596', '0.2967', '0.3280']
+Reproduced distances    : ['0.1205', '0.1488', '0.2574', '0.4052', '0.5655', '0.7308']
+
+approximate retrain
+{'loss': 166.0275, 'grad_norm': 679.9967651367188, 'learning_rate': 1.9848197343453513e-05, 'epoch': 0.02}
+{'loss': 155.6569, 'grad_norm': 189.11785888671875, 'learning_rate': 1.946869070208729e-05, 'epoch': 0.04}
+{'loss': 154.734, 'grad_norm': 146.75765991210938, 'learning_rate': 1.9127134724857686e-05, 'epoch': 0.06}
+{'loss': 149.013, 'grad_norm': 161.9139862060547, 'learning_rate': 1.874762808349146e-05, 'epoch': 0.08}
+{'loss': 149.8271, 'grad_norm': 128.46405029296875, 'learning_rate': 1.836812144212524e-05, 'epoch': 0.09}
+{'loss': 143.387, 'grad_norm': 367.41107177734375, 'learning_rate': 1.7988614800759013e-05, 'epoch': 0.11}
+{'loss': 137.0251, 'grad_norm': 258.412109375, 'learning_rate': 1.7609108159392792e-05, 'epoch': 0.13}
+{'loss': 131.0033, 'grad_norm': 346.9181823730469, 'learning_rate': 1.7229601518026568e-05, 'epoch': 0.15}
+{'loss': 110.9106, 'grad_norm': 88.2295150756836, 'learning_rate': 1.6850094876660344e-05, 'epoch': 0.17}
+{'loss': 98.2517, 'grad_norm': 106.65856170654297, 'learning_rate': 1.647058823529412e-05, 'epoch': 0.19}
+{'loss': 89.0212, 'grad_norm': 121.73843383789062, 'learning_rate': 1.6091081593927895e-05, 'epoch': 0.21}
+{'loss': 79.9024, 'grad_norm': 111.83092498779297, 'learning_rate': 1.571157495256167e-05, 'epoch': 0.23}
+{'loss': 70.2541, 'grad_norm': 104.29742431640625, 'learning_rate': 1.5332068311195447e-05, 'epoch': 0.25}
+{'loss': 61.7932, 'grad_norm': 107.26290130615234, 'learning_rate': 1.4952561669829224e-05, 'epoch': 0.27}
+{'loss': 52.3235, 'grad_norm': 113.54679107666016, 'learning_rate': 1.4573055028462999e-05, 'epoch': 0.28}
+{'loss': 43.5798, 'grad_norm': 127.95498657226562, 'learning_rate': 1.4193548387096776e-05, 'epoch': 0.3}
+{'loss': 34.2186, 'grad_norm': 115.59551239013672, 'learning_rate': 1.381404174573055e-05, 'epoch': 0.32}
+{'loss': 25.8423, 'grad_norm': 114.28832244873047, 'learning_rate': 1.3434535104364328e-05, 'epoch': 0.34}
+{'loss': 18.3933, 'grad_norm': 118.21609497070312, 'learning_rate': 1.3055028462998103e-05, 'epoch': 0.36}
+{'loss': 11.6463, 'grad_norm': 97.7455825805664, 'learning_rate': 1.267552182163188e-05, 'epoch': 0.38}
+{'loss': 6.3718, 'grad_norm': 70.49520111083984, 'learning_rate': 1.2296015180265655e-05, 'epoch': 0.4}
+{'loss': 2.9947, 'grad_norm': 35.970672607421875, 'learning_rate': 1.1916508538899433e-05, 'epoch': 0.42}
+{'loss': 1.3463, 'grad_norm': 23.21527862548828, 'learning_rate': 1.1537001897533208e-05, 'epoch': 0.44}
+{'loss': 1.4224, 'grad_norm': 17.298614501953125, 'learning_rate': 1.1157495256166984e-05, 'epoch': 0.46}
+{'loss': 0.6909, 'grad_norm': 6.830486297607422, 'learning_rate': 1.077798861480076e-05, 'epoch': 0.47}
+{'loss': 0.2993, 'grad_norm': 7.896132946014404, 'learning_rate': 1.0398481973434536e-05, 'epoch': 0.49}
+{'loss': 0.8139, 'grad_norm': 3.21463680267334, 'learning_rate': 1.0018975332068313e-05, 'epoch': 0.51}
+{'loss': 0.2284, 'grad_norm': 5.853428840637207, 'learning_rate': 9.639468690702089e-06, 'epoch': 0.53}
+{'loss': 0.4248, 'grad_norm': 17.222694396972656, 'learning_rate': 9.259962049335865e-06, 'epoch': 0.55}
+{'loss': 0.6978, 'grad_norm': 3.4357523918151855, 'learning_rate': 8.88045540796964e-06, 'epoch': 0.57}
+{'loss': 0.2133, 'grad_norm': 2.8101584911346436, 'learning_rate': 8.500948766603416e-06, 'epoch': 0.59}
+{'loss': 0.7164, 'grad_norm': 1.5229835510253906, 'learning_rate': 8.121442125237192e-06, 'epoch': 0.61}
+{'loss': 0.8433, 'grad_norm': 1.1999772787094116, 'learning_rate': 7.741935483870968e-06, 'epoch': 0.63}
+{'loss': 0.233, 'grad_norm': 9.44159984588623, 'learning_rate': 7.362428842504744e-06, 'epoch': 0.65}
+{'loss': 0.1764, 'grad_norm': 0.6316648125648499, 'learning_rate': 6.9829222011385204e-06, 'epoch': 0.66}
+{'loss': 0.6293, 'grad_norm': 1.157029390335083, 'learning_rate': 6.603415559772297e-06, 'epoch': 0.68}
+{'loss': 0.5733, 'grad_norm': 1.945935606956482, 'learning_rate': 6.223908918406073e-06, 'epoch': 0.7}
+{'loss': 0.7186, 'grad_norm': 1.318670630455017, 'learning_rate': 5.844402277039849e-06, 'epoch': 0.72}
+{'loss': 0.5266, 'grad_norm': 23.151782989501953, 'learning_rate': 5.464895635673625e-06, 'epoch': 0.74}
+{'loss': 0.3213, 'grad_norm': 1.7296569347381592, 'learning_rate': 5.085388994307401e-06, 'epoch': 0.76}
+ 77%|███████████████████████████████▍         | 404/527 [25:00<07:32,  3.68s/it]
+
+ 77%|███████████████████████████████▋         | 407/527 [25:11<07:24,  3.71s/it]
+
+{'loss': 0.1466, 'grad_norm': 2.4323160648345947, 'learning_rate': 4.705882352941177e-06, 'epoch': 0.78}
+{'loss': 0.1559, 'grad_norm': 5.935379981994629, 'learning_rate': 4.326375711574953e-06, 'epoch': 0.8}
+{'loss': 0.3715, 'grad_norm': 1.5806286334991455, 'learning_rate': 3.946869070208729e-06, 'epoch': 0.82}
+{'loss': 0.3222, 'grad_norm': 1.7393206357955933, 'learning_rate': 3.567362428842505e-06, 'epoch': 0.83}
+{'loss': 0.2647, 'grad_norm': 1.7195888757705688, 'learning_rate': 3.187855787476281e-06, 'epoch': 0.85}
+{'loss': 0.434, 'grad_norm': 3.736269235610962, 'learning_rate': 2.808349146110057e-06, 'epoch': 0.87}
+{'loss': 0.303, 'grad_norm': 2.101170063018799, 'learning_rate': 2.4288425047438334e-06, 'epoch': 0.89}
+{'loss': 0.6168, 'grad_norm': 2.1986098289489746, 'learning_rate': 2.049335863377609e-06, 'epoch': 0.91}
+{'loss': 0.1965, 'grad_norm': 4.313976287841797, 'learning_rate': 1.6698292220113854e-06, 'epoch': 0.93}
+{'loss': 0.8341, 'grad_norm': 0.7366486191749573, 'learning_rate': 1.2903225806451614e-06, 'epoch': 0.95}
+{'loss': 0.4588, 'grad_norm': 1.014793872833252, 'learning_rate': 9.108159392789374e-07, 'epoch': 0.97}
+{'loss': 0.2982, 'grad_norm': 5.20933723449707, 'learning_rate': 5.313092979127135e-07, 'epoch': 0.99}
+{'train_runtime': 1954.5686, 'train_samples_per_second': 2.697, 'train_steps_per_second': 0.27, 'train_loss': 36.19581371183866, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 527/527 [32:34<00:00,  3.71s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 39.125613
+模型已保存到AR_github_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [512, 514, 516, 518, 520, 522]
+Original distances      : ['0.0079', '0.0149', '0.0205', '0.0250', '0.0288', '0.0318']
+Reproduced distances    : ['0.4017', '0.5235', '0.6437', '0.7506', '0.8540', '0.9465']
+📊 Pearson correlation r: 0.9950
+✅ 趋势一致性良好（高相关性）
+
+Finetune with random labels
+
+{'loss': 226.988, 'grad_norm': 68.7413101196289, 'learning_rate': 1.95e-05, 'epoch': 0.05}
+{'loss': 217.0421, 'grad_norm': 117.93930053710938, 'learning_rate': 1.86e-05, 'epoch': 0.1}
+{'loss': 219.0415, 'grad_norm': 96.91667175292969, 'learning_rate': 1.77e-05, 'epoch': 0.15}
+{'loss': 211.8093, 'grad_norm': 88.25948333740234, 'learning_rate': 1.67e-05, 'epoch': 0.2}
+{'loss': 212.0955, 'grad_norm': 113.17704772949219, 'learning_rate': 1.5700000000000002e-05, 'epoch': 0.25}
+{'loss': 210.1262, 'grad_norm': 110.95873260498047, 'learning_rate': 1.4700000000000002e-05, 'epoch': 0.3}
+{'loss': 204.3292, 'grad_norm': 159.54293823242188, 'learning_rate': 1.3700000000000003e-05, 'epoch': 0.35}
+{'loss': 201.654, 'grad_norm': 144.14859008789062, 'learning_rate': 1.27e-05, 'epoch': 0.4}
+{'loss': 195.3971, 'grad_norm': 129.37881469726562, 'learning_rate': 1.17e-05, 'epoch': 0.45}
+{'loss': 196.8065, 'grad_norm': 109.05232238769531, 'learning_rate': 1.0700000000000001e-05, 'epoch': 0.5}
+{'loss': 192.7042, 'grad_norm': 97.70903778076172, 'learning_rate': 9.7e-06, 'epoch': 0.55}
+{'loss': 185.8733, 'grad_norm': 115.96271514892578, 'learning_rate': 8.700000000000001e-06, 'epoch': 0.6}
+{'loss': 184.0643, 'grad_norm': 114.05827331542969, 'learning_rate': 7.7e-06, 'epoch': 0.65}
+{'loss': 178.6997, 'grad_norm': 137.9397735595703, 'learning_rate': 6.700000000000001e-06, 'epoch': 0.7}
+{'loss': 178.2729, 'grad_norm': 136.8823699951172, 'learning_rate': 5.7e-06, 'epoch': 0.75}
+{'loss': 177.1234, 'grad_norm': 129.69346618652344, 'learning_rate': 4.7e-06, 'epoch': 0.8}
+{'loss': 168.8466, 'grad_norm': 125.0811538696289, 'learning_rate': 3.7e-06, 'epoch': 0.85}
+{'loss': 169.9609, 'grad_norm': 128.0894012451172, 'learning_rate': 2.7000000000000004e-06, 'epoch': 0.9}
+{'loss': 170.0919, 'grad_norm': 204.43606567382812, 'learning_rate': 1.7000000000000002e-06, 'epoch': 0.95}
+{'loss': 168.6035, 'grad_norm': 127.00611877441406, 'learning_rate': 7.000000000000001e-07, 'epoch': 1.0}
+{'train_runtime': 763.6046, 'train_samples_per_second': 2.619, 'train_steps_per_second': 0.262, 'train_loss': 193.47650634765625, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 200/200 [12:43<00:00,  3.82s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 25.308576
+模型已保存到FT_github_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [186, 188, 190, 192, 194, 196]
+Original distances      : ['0.1346', '0.1912', '0.2416', '0.2859', '0.3241', '0.3573']
+Reproduced distances    : ['0.6974', '0.9175', '1.0762', '1.2155', '1.3871', '1.5781']
+📊 Pearson correlation r: 0.9949
+✅ 趋势一致性良好（高相关性）
+
+unlearn with adversarial samples
+
+(llmunlearn) a@a-AX370-Gaming-3:~/unlearn$ python verify_unlearn.py
+Loading checkpoint shards: 100%|██████████████████| 2/2 [00:10<00:00,  5.46s/it]
+We've detected an older driver with an RTX 4000 series GPU. These drivers have issues with P2P. This can affect the multi-gpu inference when using accelerate device_map.Please make sure to update your driver to the latest version which resolves this.
+/home/a/unlearn/verify_unlearn.py:279: FutureWarning: `tokenizer` is deprecated and will be removed in version 5.0.0 for `AdversarialTrainer.__init__`. Use `processing_class` instead.
+  trainer = AdversarialTrainer(
+No label_names provided for model class `PeftModelForCausalLM`. Since `PeftModel` hides base models input arguments, if label_names is not given, label_names can't be set automatically within `Trainer`. Note that empty label_names list will be used instead.
+{'loss': 127.5222, 'grad_norm': 52.54804611206055, 'learning_rate': 1.95e-05, 'epoch': 0.05}
+{'loss': 127.7764, 'grad_norm': 84.48307037353516, 'learning_rate': 1.86e-05, 'epoch': 0.1}
+{'loss': 124.3417, 'grad_norm': 98.56597137451172, 'learning_rate': 1.77e-05, 'epoch': 0.15}
+{'loss': 120.5745, 'grad_norm': 84.0701675415039, 'learning_rate': 1.67e-05, 'epoch': 0.2}
+{'loss': 119.3411, 'grad_norm': 83.91278076171875, 'learning_rate': 1.5700000000000002e-05, 'epoch': 0.25}
+{'loss': 119.1537, 'grad_norm': 92.98426055908203, 'learning_rate': 1.4700000000000002e-05, 'epoch': 0.3}
+{'loss': 115.0953, 'grad_norm': 144.36041259765625, 'learning_rate': 1.3700000000000003e-05, 'epoch': 0.35}
+{'loss': 113.2673, 'grad_norm': 162.60227966308594, 'learning_rate': 1.27e-05, 'epoch': 0.4}
+{'loss': 107.155, 'grad_norm': 128.78076171875, 'learning_rate': 1.17e-05, 'epoch': 0.45}
+{'loss': 103.9779, 'grad_norm': 118.6869125366211, 'learning_rate': 1.0800000000000002e-05, 'epoch': 0.5}
+{'loss': 100.5187, 'grad_norm': 100.11676025390625, 'learning_rate': 9.800000000000001e-06, 'epoch': 0.55}
+{'loss': 97.4788, 'grad_norm': 119.51849365234375, 'learning_rate': 8.8e-06, 'epoch': 0.6}
+{'loss': 96.3592, 'grad_norm': 131.87576293945312, 'learning_rate': 7.800000000000002e-06, 'epoch': 0.65}
+{'loss': 94.4614, 'grad_norm': 211.3261260986328, 'learning_rate': 6.800000000000001e-06, 'epoch': 0.7}
+{'loss': 91.41, 'grad_norm': 148.01312255859375, 'learning_rate': 5.8e-06, 'epoch': 0.75}
+{'loss': 88.7546, 'grad_norm': 183.57962036132812, 'learning_rate': 4.800000000000001e-06, 'epoch': 0.8}
+{'loss': 89.1656, 'grad_norm': 107.01847076416016, 'learning_rate': 3.8000000000000005e-06, 'epoch': 0.85}
+{'loss': 87.7922, 'grad_norm': 168.1479949951172, 'learning_rate': 2.8000000000000003e-06, 'epoch': 0.9}
+{'loss': 85.5583, 'grad_norm': 147.47044372558594, 'learning_rate': 1.8000000000000001e-06, 'epoch': 0.95}
+{'loss': 84.5145, 'grad_norm': 120.5482177734375, 'learning_rate': 8.000000000000001e-07, 'epoch': 1.0}
+{'train_runtime': 1210.9927, 'train_samples_per_second': 1.652, 'train_steps_per_second': 0.165, 'train_loss': 104.7109146118164, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 200/200 [20:10<00:00,  6.05s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 24.716883
+模型已保存到UA_github_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [186, 188, 190, 192, 194, 196]
+Original distances      : ['0.1345', '0.1926', '0.2456', '0.2930', '0.3343', '0.3706']
+Reproduced distances    : ['0.6864', '0.8946', '1.1038', '1.3162', '1.5324', '1.7528']
+📊 Pearson correlation r: 0.9953
+✅ 趋势一致性良好（高相关性）
+
+gradient ascent + descent
+
+{'loss': 39.8064, 'grad_norm': 84.60026550292969, 'learning_rate': 1.9833333333333335e-05, 'epoch': 0.02}
+{'loss': 46.5273, 'grad_norm': 86.31485748291016, 'learning_rate': 1.9533333333333335e-05, 'epoch': 0.03}
+{'loss': 50.6466, 'grad_norm': 165.190673828125, 'learning_rate': 1.9200000000000003e-05, 'epoch': 0.05}
+{'loss': 48.8274, 'grad_norm': 124.1210708618164, 'learning_rate': 1.8900000000000002e-05, 'epoch': 0.07}
+{'loss': 49.5894, 'grad_norm': 99.53849792480469, 'learning_rate': 1.856666666666667e-05, 'epoch': 0.08}
+{'loss': 38.1497, 'grad_norm': 156.17654418945312, 'learning_rate': 1.8233333333333334e-05, 'epoch': 0.1}
+{'loss': 41.9882, 'grad_norm': 72.93704223632812, 'learning_rate': 1.79e-05, 'epoch': 0.12}
+{'loss': 38.5014, 'grad_norm': 139.50953674316406, 'learning_rate': 1.756666666666667e-05, 'epoch': 0.13}
+{'loss': 34.5396, 'grad_norm': 163.33404541015625, 'learning_rate': 1.7233333333333337e-05, 'epoch': 0.15}
+{'loss': 37.1356, 'grad_norm': 150.26919555664062, 'learning_rate': 1.69e-05, 'epoch': 0.17}
+{'loss': 34.2745, 'grad_norm': 119.88532257080078, 'learning_rate': 1.656666666666667e-05, 'epoch': 0.18}
+{'loss': 22.6677, 'grad_norm': 139.2400665283203, 'learning_rate': 1.6233333333333333e-05, 'epoch': 0.2}
+{'loss': 26.1368, 'grad_norm': 67.17750549316406, 'learning_rate': 1.5900000000000004e-05, 'epoch': 0.22}
+{'loss': 26.4784, 'grad_norm': 56.908016204833984, 'learning_rate': 1.5600000000000003e-05, 'epoch': 0.23}
+{'loss': 28.6088, 'grad_norm': 33.1779899597168, 'learning_rate': 1.5266666666666667e-05, 'epoch': 0.25}
+{'loss': 25.2384, 'grad_norm': 39.6285514831543, 'learning_rate': 1.4933333333333335e-05, 'epoch': 0.27}
+{'loss': 25.7742, 'grad_norm': 36.88081741333008, 'learning_rate': 1.46e-05, 'epoch': 0.28}
+{'loss': 22.333, 'grad_norm': 11.456350326538086, 'learning_rate': 1.4266666666666668e-05, 'epoch': 0.3}
+{'loss': 22.591, 'grad_norm': 14.549066543579102, 'learning_rate': 1.3933333333333334e-05, 'epoch': 0.32}
+{'loss': 21.1282, 'grad_norm': 8.893294334411621, 'learning_rate': 1.3600000000000002e-05, 'epoch': 0.33}
+{'loss': 19.3015, 'grad_norm': 7.472957611083984, 'learning_rate': 1.3266666666666668e-05, 'epoch': 0.35}
+{'loss': 21.5706, 'grad_norm': 13.57790470123291, 'learning_rate': 1.2933333333333334e-05, 'epoch': 0.37}
+{'loss': 22.4542, 'grad_norm': nan, 'learning_rate': 1.2600000000000001e-05, 'epoch': 0.38}
+{'loss': 19.473, 'grad_norm': 5.773838043212891, 'learning_rate': 1.23e-05, 'epoch': 0.4}
+{'loss': 20.2379, 'grad_norm': 5.219942092895508, 'learning_rate': 1.1966666666666668e-05, 'epoch': 0.42}
+{'loss': 21.4432, 'grad_norm': 6.397549629211426, 'learning_rate': 1.1633333333333334e-05, 'epoch': 0.43}
+{'loss': 21.6974, 'grad_norm': 5.590150356292725, 'learning_rate': 1.13e-05, 'epoch': 0.45}
+{'loss': 20.6827, 'grad_norm': 4.968007564544678, 'learning_rate': 1.0966666666666668e-05, 'epoch': 0.47}
+{'loss': 18.0416, 'grad_norm': 11.834423065185547, 'learning_rate': 1.0633333333333334e-05, 'epoch': 0.48}
+{'loss': 17.7647, 'grad_norm': 5.3897175788879395, 'learning_rate': 1.0300000000000001e-05, 'epoch': 0.5}
+{'loss': 16.9895, 'grad_norm': 5.76087760925293, 'learning_rate': 9.966666666666667e-06, 'epoch': 0.52}
+{'loss': 20.6861, 'grad_norm': 4.727038860321045, 'learning_rate': 9.633333333333335e-06, 'epoch': 0.53}
+{'loss': 21.7457, 'grad_norm': 5.755887031555176, 'learning_rate': 9.3e-06, 'epoch': 0.55}
+{'loss': 18.5629, 'grad_norm': 7.215921401977539, 'learning_rate': 8.966666666666667e-06, 'epoch': 0.57}
+{'loss': 17.1728, 'grad_norm': 5.115172863006592, 'learning_rate': 8.633333333333334e-06, 'epoch': 0.58}
+{'loss': 23.0322, 'grad_norm': 6.0147624015808105, 'learning_rate': 8.3e-06, 'epoch': 0.6}
+{'loss': 18.4718, 'grad_norm': 4.2511067390441895, 'learning_rate': 7.966666666666668e-06, 'epoch': 0.62}
+{'loss': 19.7007, 'grad_norm': 5.1929612159729, 'learning_rate': 7.633333333333334e-06, 'epoch': 0.63}
+{'loss': 18.5433, 'grad_norm': 8.232221603393555, 'learning_rate': 7.3e-06, 'epoch': 0.65}
+{'loss': 19.7195, 'grad_norm': 4.325982093811035, 'learning_rate': 6.966666666666667e-06, 'epoch': 0.67}
+{'loss': 16.9269, 'grad_norm': 4.7899489402771, 'learning_rate': 6.633333333333334e-06, 'epoch': 0.68}
+{'loss': 20.9647, 'grad_norm': 5.0040059089660645, 'learning_rate': 6.300000000000001e-06, 'epoch': 0.7}
+{'loss': 22.8899, 'grad_norm': 5.684525966644287, 'learning_rate': 5.966666666666667e-06, 'epoch': 0.72}
+{'loss': 18.3383, 'grad_norm': 3.7893385887145996, 'learning_rate': 5.633333333333334e-06, 'epoch': 0.73}
+{'loss': 21.0303, 'grad_norm': 4.081109523773193, 'learning_rate': 5.300000000000001e-06, 'epoch': 0.75}
+{'loss': 22.0623, 'grad_norm': 5.140313625335693, 'learning_rate': 4.966666666666667e-06, 'epoch': 0.77}
+{'loss': 19.1885, 'grad_norm': 5.731594085693359, 'learning_rate': 4.633333333333334e-06, 'epoch': 0.78}
+{'loss': 19.8115, 'grad_norm': 3.6281802654266357, 'learning_rate': 4.3e-06, 'epoch': 0.8}
+{'loss': 19.9242, 'grad_norm': 4.864471435546875, 'learning_rate': 3.966666666666667e-06, 'epoch': 0.82}
+{'loss': 19.0125, 'grad_norm': 4.009491920471191, 'learning_rate': 3.633333333333334e-06, 'epoch': 0.83}
+{'loss': 21.5007, 'grad_norm': 4.803099155426025, 'learning_rate': 3.3000000000000006e-06, 'epoch': 0.85}
+{'loss': 19.9079, 'grad_norm': 4.126609802246094, 'learning_rate': 2.9666666666666673e-06, 'epoch': 0.87}
+{'loss': 20.6963, 'grad_norm': 6.784082412719727, 'learning_rate': 2.6333333333333332e-06, 'epoch': 0.88}
+{'loss': 22.2447, 'grad_norm': 178.14532470703125, 'learning_rate': 2.3000000000000004e-06, 'epoch': 0.9}
+{'loss': 19.1038, 'grad_norm': 4.547636985778809, 'learning_rate': 1.9666666666666668e-06, 'epoch': 0.92}
+{'loss': 20.4756, 'grad_norm': 6.1298956871032715, 'learning_rate': 1.6333333333333335e-06, 'epoch': 0.93}
+{'loss': 20.1396, 'grad_norm': 264.96142578125, 'learning_rate': 1.3e-06, 'epoch': 0.95}
+{'loss': 17.7831, 'grad_norm': 4.027032852172852, 'learning_rate': 9.666666666666668e-07, 'epoch': 0.97}
+{'loss': 17.3097, 'grad_norm': 4.16197395324707, 'learning_rate': 6.333333333333334e-07, 'epoch': 0.98}
+{'loss': 19.2664, 'grad_norm': 4.87387752532959, 'learning_rate': 3.0000000000000004e-07, 'epoch': 1.0}
+{'train_runtime': 1804.7025, 'train_samples_per_second': 3.325, 'train_steps_per_second': 0.332, 'train_loss': 24.61351542154948, 'epoch': 1.0}
+100%|█████████████████████████████████████████| 600/600 [30:04<00:00,  3.01s/it]
+🚨 1 epoch 后 LoRA adapter 欧氏距离: 41.619644
+模型已保存到GAD_github_pou_proof/model_final
+
+📈 [Trend Verification]
+Target steps            : [586, 588, 590, 592, 594, 596]
+Original distances      : ['0.0194', '0.0272', '0.0339', '0.0395', '0.0442', '0.0481']
+Reproduced distances    : ['0.6575', '0.7996', '0.9241', '1.0286', '1.1212', '1.2090']
+📊 Pearson correlation r: 0.9995
+✅ 趋势一致性良好（高相关性）
+
+
+
+

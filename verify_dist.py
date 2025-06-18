@@ -19,6 +19,9 @@ from torch.optim import AdamW
 from tqdm import tqdm
 import shutil
 from torch.nn.functional import softmax
+import torch.nn.functional as F
+import scipy.stats as stats
+
 
 
 # ========== 计算 checkpoint 间欧氏距离 ==========
@@ -27,29 +30,58 @@ def compute_checkpoint_distance(step_a, step_b, ckpt_dir):
     sd_b = load_safetensors(f"{ckpt_dir}/checkpoint-{step_b}/adapter_model.safetensors", device="cpu")
     return sum(torch.norm(sd_a[k] - sd_b[k]).item() for k in sd_a)
 
-def generate_adversarial_labels(model, batch, rm_groundtruth=True):
+# def generate_adversarial_labels(model, batch, rm_groundtruth=True):
+#     model.eval()
+#     inputs = {k: v.to(model.device) for k, v in batch.items()}
+#     with torch.no_grad():
+#         outputs = model(**inputs)
+#         logits = outputs.logits  # (batch, seq_len, vocab_size)
+#
+#     if rm_groundtruth:
+#         # 将原始 token 的概率置为 -inf，避免选中自己
+#         input_ids = inputs["input_ids"]
+#         for i in range(input_ids.size(0)):
+#             for j in range(input_ids.size(1)):
+#                 logits[i, j, input_ids[i, j]] = float("-inf")
+#
+#     # softmax 概率
+#     probs = softmax(logits, dim=-1)
+#
+#     # 取每个位置预测概率最高的（非 ground truth）token
+#     adversarial_labels = probs.argmax(dim=-1)
+#
+#     return adversarial_labels  # shape: (batch, seq_len)
+
+def generate_adversarial_labels(model, inputs, rm_groundtruth=True, perturb_ratio=0.3):
     model.eval()
-    inputs = {k: v.to(model.device) for k, v in batch.items()}
+    inputs = {k: v.to(model.device) for k, v in inputs.items()}
     with torch.no_grad():
         outputs = model(**inputs)
-        logits = outputs.logits  # (batch, seq_len, vocab_size)
+        logits = outputs.logits
 
     if rm_groundtruth:
-        # 将原始 token 的概率置为 -inf，避免选中自己
         input_ids = inputs["input_ids"]
-        for i in range(input_ids.size(0)):
-            for j in range(input_ids.size(1)):
-                logits[i, j, input_ids[i, j]] = float("-inf")
+        mask = torch.nn.functional.one_hot(input_ids, num_classes=logits.size(-1)).bool()
+        logits = logits.masked_fill(mask, -1e9)
 
-    # softmax 概率
     probs = softmax(logits, dim=-1)
+    top2 = probs.topk(2, dim=-1).indices  # (batch, seq_len, 2)
 
-    # 取每个位置预测概率最高的（非 ground truth）token
-    adversarial_labels = probs.argmax(dim=-1)
+    # 默认选第2高作为扰动目标
+    alt_labels = top2[:, :, 1]
+    adv_labels = inputs["input_ids"].clone()
 
-    return adversarial_labels  # shape: (batch, seq_len)
+    # 随机替换其中一部分 token
+    rand_mask = torch.rand_like(adv_labels.float()) < perturb_ratio
+    adv_labels[rand_mask] = alt_labels[rand_mask]
 
-def verify_reverse_step(unlearn_method, step_i_path, step_i1_path, dataset_slice, grad_accum=10):
+    # 打印 diff ratio
+    diff_ratio = (adv_labels != inputs["input_ids"]).float().mean().item()
+    # print(f"Adversarial diff ratio: {diff_ratio:.4f}")
+
+    return adv_labels
+
+def verify_reverse_step(dataset_select, unlearn_method, step_i_path, step_i1_path, dataset_slice, grad_accum=10):
     import gc
     torch.cuda.empty_cache()
     gc.collect()
@@ -115,12 +147,19 @@ def verify_reverse_step(unlearn_method, step_i_path, step_i1_path, dataset_slice
 
     scaler = GradScaler()
     model.zero_grad()
-    if unlearn_method == "GA" or unlearn_method ==  "FT" or unlearn_method ==  "UA":
-        desc = f"Verifying {step_i_path[-2:]}→{step_i1_path[-2:]}"
-    elif unlearn_method == "AR" or unlearn_method == "GAD":
+
+    if dataset_select == "arxiv":
+        if unlearn_method == "GA" or unlearn_method ==  "FT" or unlearn_method ==  "UA":
+            desc = f"Verifying {step_i_path[-2:]}→{step_i1_path[-2:]}"
+        elif unlearn_method == "AR" or unlearn_method == "GAD":
+            desc = f"Verifying {step_i_path[-3:]}→{step_i1_path[-3:]}"
+    elif dataset_select == "github":
         desc = f"Verifying {step_i_path[-3:]}→{step_i1_path[-3:]}"
     for step, batch in enumerate(tqdm(dataloader, desc=desc)):
         batch = {k: v.cuda(non_blocking=True) for k, v in batch.items()}
+        if batch["input_ids"].dim() != 2 or batch["input_ids"].size(1) > 2048:
+            print(f"⚠️ Skip step {step} due to illegal shape: {batch['input_ids'].shape}")
+            continue
         with autocast():
             if unlearn_method == "GA":
                 loss = -model(**batch).loss / grad_accum
@@ -171,7 +210,8 @@ def verify_reverse_step(unlearn_method, step_i_path, step_i1_path, dataset_slice
             outputs = model(**batch)
             logits = outputs.logits.view(-1, outputs.logits.size(-1))
             labels = batch["labels"].view(-1)
-            loss = torch.nn.CrossEntropyLoss()(logits, labels) / grad_accum
+            loss = torch.nn.CrossEntropyLoss()(logits, labels)/ grad_accum
+
 
         scaler.scale(loss).backward()
         if (step + 1) % grad_accum == 0:
@@ -190,7 +230,14 @@ def verify_reverse_step(unlearn_method, step_i_path, step_i1_path, dataset_slice
     del model
     gc.collect()
     torch.cuda.empty_cache()
-    return sum(torch.norm(sd_new[k] - sd_target[k]).item() for k in sd_new)
+    d_1 = sum(torch.norm(sd_new[k] - sd_target[k], p=1).item() for k in sd_new)
+    d_2 = sum(torch.norm(sd_new[k] - sd_target[k]).item() for k in sd_new)
+    # 将所有参数拼接成一个向量（注意要 flatten 再 concat）
+    vec_new = torch.cat([v.view(-1) for v in sd_new.values()])
+    vec_target = torch.cat([v.view(-1) for v in sd_target.values()])
+    d_cos = 1 - F.cosine_similarity(vec_new.unsqueeze(0), vec_target.unsqueeze(0)).item()
+    d_inf =max(torch.norm(sd_new[k] - sd_target[k], p=float('inf')).item() for k in sd_new)
+    return d_1, d_2, d_cos, d_inf
 
 
 # ========== 主程序 ==========
@@ -209,41 +256,76 @@ def main():
     # unlearn_method = "GA"
     # unlearn_method = "AR"
     # unlearn_method = "FT"
-    unlearn_method = "UA"
-    # unlearn_method = "GAD"
+    # unlearn_method = "UA"
+    unlearn_method = "GAD"
 
-    ckpt_dir = unlearn_method+"_"+"pou_proof"
+    # dataset_select = "arxiv"
+    dataset_select = "github"
 
-    if unlearn_method == "GA" or unlearn_method == "FT" or unlearn_method == "UA":
-        base_step = 32
-        target_step = 50
-        # 趋势验证（32 → 多个 k）
-        target_steps = [36, 38, 40, 42, 44, 46]
-        forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")
-        indices = list(range(len(forget_dataset)))
-        full_ds = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")
-    elif unlearn_method == "AR":
-        base_step = 598
-        target_step = 614
-        target_steps = [604, 606, 608, 610, 612, 614]
-        approximate_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_approximate")
-        indices = list(range(len(approximate_dataset)))
-        full_ds = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_approximate")
-    elif unlearn_method == "GAD":
-        base_step = 232
-        target_step = 250
-        target_steps = [236, 238, 240, 242, 244, 246]
-        forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")  # 被遗忘数据
-        descent_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_retain")  # 保留数据（梯度下降）
+    ckpt_dir = unlearn_method+"_"+dataset_select+"_"+"pou_proof"
 
-        # 添加 factor 字段：上升为 -1，下降为 +1
-        forget_dataset = forget_dataset.map(lambda x: {**x, "factor": -1.0})
-        descent_dataset = descent_dataset.map(lambda x: {**x, "factor": 1.0})
+    if dataset_select == "arxiv":
+        if unlearn_method == "GA" or unlearn_method == "FT" or unlearn_method == "UA":
+            base_step = 32
+            target_step = 50
+            # 趋势验证（32 → 多个 k）
+            target_steps = [34, 36, 38, 40, 42, 44]
+            forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")
+            indices = list(range(len(forget_dataset)))
+            full_ds = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")
+        elif unlearn_method == "AR":
+            base_step = 598
+            target_step = 614
+            target_steps = [600, 602, 604, 606, 608, 610]
+            approximate_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_approximate")
+            indices = list(range(len(approximate_dataset)))
+            full_ds = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_approximate")
+        elif unlearn_method == "GAD":
+            base_step = 232
+            target_step = 250
+            target_steps = [234, 236, 238, 240, 242, 244]
+            forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_forget")  # 被遗忘数据
+            descent_dataset = load_from_disk("./dataset_cache/unlearn_dataset_arxiv_retain")  # 保留数据（梯度下降）
 
-        # 合并两个 dataset
-        combined_dataset = concatenate_datasets([forget_dataset, descent_dataset])
-        indices = list(range(len(combined_dataset)))
-        full_ds = combined_dataset
+            # 添加 factor 字段：上升为 -1，下降为 +1
+            forget_dataset = forget_dataset.map(lambda x: {**x, "factor": -1.0})
+            descent_dataset = descent_dataset.map(lambda x: {**x, "factor": 1.0})
+
+            # 合并两个 dataset
+            combined_dataset = concatenate_datasets([forget_dataset, descent_dataset])
+            indices = list(range(len(combined_dataset)))
+            full_ds = combined_dataset
+    elif dataset_select == "github":
+        if unlearn_method == "GA" or unlearn_method == "FT" or  unlearn_method == "UA":
+            base_step = 182
+            target_step = 200
+            # 趋势验证（32 → 多个 k）
+            target_steps = [184, 186, 188, 190, 192, 194]
+            forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_github_forget")
+            indices = list(range(len(forget_dataset)))
+            full_ds = load_from_disk("./dataset_cache/unlearn_dataset_github_forget")
+        elif unlearn_method == "AR":
+            base_step = 510
+            target_step = 527
+            target_steps = [512, 514, 516, 518, 520, 522]
+            approximate_dataset = load_from_disk("./dataset_cache/unlearn_dataset_github_approximate")
+            indices = list(range(len(approximate_dataset)))
+            full_ds = load_from_disk("./dataset_cache/unlearn_dataset_github_approximate")
+        elif unlearn_method == "GAD":
+            base_step = 582
+            target_step = 600
+            target_steps = [584, 586, 588, 590, 592, 594]
+            forget_dataset = load_from_disk("./dataset_cache/unlearn_dataset_github_forget")  # 被遗忘数据
+            descent_dataset = load_from_disk("./dataset_cache/unlearn_dataset_github_retain")  # 保留数据（梯度下降）
+
+            # 添加 factor 字段：上升为 -1，下降为 +1
+            forget_dataset = forget_dataset.map(lambda x: {**x, "factor": -1.0})
+            descent_dataset = descent_dataset.map(lambda x: {**x, "factor": 1.0})
+
+            # 合并两个 dataset
+            combined_dataset = concatenate_datasets([forget_dataset, descent_dataset])
+            indices = list(range(len(combined_dataset)))
+            full_ds = combined_dataset
 
     grad_accum = 10
     if unlearn_method == "GAD":
@@ -251,32 +333,40 @@ def main():
     else:
         full_ds.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
     ds_slice = full_ds.select(indices[base_step * grad_accum: target_step * grad_accum])
-    dist = verify_reverse_step(
+    d_1, d_2, d_cos, d_inf = verify_reverse_step(
+        dataset_select,
         unlearn_method,
         f"{ckpt_dir}/checkpoint-{base_step}",
         f"{ckpt_dir}/checkpoint-{target_step}",
         ds_slice,
         grad_accum=grad_accum
     )
-    print(f"\n🔁 复现 {base_step}→{target_step} 后的 LoRA 距离: {dist:.6f}")
+    print(f"\n🔁 复现 {base_step}→{target_step} 后的 LoRA 距离: ", d_1, d_2, d_cos, d_inf)
 
     orig_distances = [compute_checkpoint_distance(base_step, k, ckpt_dir) for k in target_steps]
-    repro_distances = []
+    repro_distances_d1 = []
+    repro_distances_d2 = []
+    repro_distances_dcos = []
+    repro_distances_dinf = []
     for k in target_steps:
         ds_k = full_ds.select(indices[base_step * grad_accum: k * grad_accum])
         if unlearn_method == "GAD":
             ds_k.set_format("torch", columns=["input_ids", "attention_mask", "labels", "factor"])
         else:
             ds_k.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
-        d = verify_reverse_step(
+        d_1, d_2, d_cos, d_inf = verify_reverse_step(
+            dataset_select,
             unlearn_method,
             f"{ckpt_dir}/checkpoint-{base_step}",
             f"{ckpt_dir}/checkpoint-{k}",
             ds_k,
             grad_accum=grad_accum,
         )
-        repro_distances.append(d)
-        print(f"\n🔁 复现 {base_step}→{k} 梯度上升后的 LoRA 距离: {d:.6f}")
+        repro_distances_d1.append(d_1)
+        repro_distances_d2.append(d_2)
+        repro_distances_dcos.append(d_cos)
+        repro_distances_dinf.append(d_inf)
+        print(f"\n🔁 复现 {base_step}→{k} 梯度上升后的 LoRA 距离: ",d_1, d_2, d_cos, d_inf)
 
         # malicious repro dist
         # if len(repro_distances) != 0:
@@ -284,18 +374,29 @@ def main():
         # else:
         #  repro_distances.append(d)
 
-    r = np.corrcoef(orig_distances, repro_distances)[0, 1]
+    r1 = np.corrcoef(orig_distances, repro_distances_d1)[0, 1]
+    r2 = np.corrcoef(orig_distances, repro_distances_d2)[0, 1]
     print("\n📈 [Trend Verification]")
     print("Target steps            :", target_steps)
     print("Original distances      :", [f"{d:.4f}" for d in orig_distances])
-    print("Reproduced distances    :", [f"{d:.4f}" for d in repro_distances])
-    print(f"📊 Pearson correlation r: {r:.4f}")
-    if r > 0.9:
-        print("✅ 趋势一致性良好（高相关性）")
-    elif r > 0.5:
-        print("🟡 有一定趋势一致性，但存在偏差")
-    else:
-        print("❌ 趋势未重现，请检查复现流程")
+    print("Reproduced distances  d1  :", [f"{d:.4f}" for d in repro_distances_d1])
+    print("Reproduced distances  d2  :", [f"{d:.4f}" for d in repro_distances_d2])
+    # print("Reproduced distances  dcos  :", [f"{d:.4f}" for d in repro_distances_dcos])
+    # print("Reproduced distances  dinf  :", [f"{d:.4f}" for d in repro_distances_dinf])
+    print(f"📊 Pearson correlation r: {r1:.4f}")
+    print(f"📊 Pearson correlation r: {r2:.4f}")
+
+    r1, p1 = stats.pearsonr(orig_distances, repro_distances_d1)
+    r2, p2 = stats.pearsonr(orig_distances, repro_distances_d2)
+    print(r1,p1)
+    print(r2, p2)
+
+    # if r > 0.9:
+    #     print("✅ 趋势一致性良好（高相关性）")
+    # elif r > 0.5:
+    #     print("🟡 有一定趋势一致性，但存在偏差")
+    # else:
+    #     print("❌ 趋势未重现，请检查复现流程")
 
 
 if __name__ == "__main__":
